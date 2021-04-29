@@ -1,0 +1,50 @@
+{# Minimum required items #}
+{% if minimum_items is not defined %}
+{% set minimum_items = 0 %}
+{% endif %}
+
+{# Number of items at init #}
+{% if init_items is not defined %}
+{% set init_items = 1 %}
+{% endif %}
+
+{# Widget container tags #}
+{% if tag is not defined %}
+{% set tag = '' %}
+{% endif %}
+
+{# Number of items at init #}
+{% if counter is not defined %}
+{% set counter = 0 %}
+{% endif %}
+
+{# Add new item Button label #}
+{% if add_btn_label is not defined %}
+{% set add_btn_label = "&plus;" %}
+{% endif %}
+
+
+{# Delete item Button label #}
+{% if loop_index is not defined %}
+{% set loop_index = 0 %}
+{% endif %}
+
+<div id="{{ name }}" 
+    data-widget-min="{{ minimum_items }}"
+    data-widget-init="{{ init_items }}"
+    data-widget-tags="{{ tag }}"
+    data-widget-counter="{{ counter }}">
+
+    {{ block('collection_items') }}
+</div>
+
+<template data-collection-prototype data-collection-target="#{{ name }}">
+    {{ block('collection_template') }}
+</template>
+
+<div class="text-right">
+    <button type="button"
+        class="btn btn-sm btn-success" 
+        data-collection-action="add" 
+        data-collection-target="#{{ name }}">{{ add_btn_label | raw }}</button>
+</div>

@@ -1,0 +1,61 @@
+{{ form_start(form) }}
+
+    <div class="form-group">
+
+        {{ form_label(form.medias) }}
+
+        {% embed "components/collection.html.twig" with {
+            name: "product-medias-collection",
+            form: form,
+            items: form.medias,
+            minimum_items: 1,
+            init_items: 1,
+            tag: '<div class="form-group"></div>',
+            counter: form.medias|length,
+        } only %}
+            
+            {% block collection_items %}{% for item in items %}
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"># <span data-collection-serial></span></span>
+                    </div>
+    
+                    {{ form_widget(item) }}
+    
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary"  
+                        data-collection-action="remove" 
+                        data-collection-target="#{{ name }}"
+                        data-collection-serial0="{{ loop.index }}">&times;</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}{% endblock %}
+
+            {% block collection_template %}
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"># <span data-collection-serial></span></span>
+                </div>
+
+                {{ form_widget(form.medias.vars.prototype) }}
+
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-secondary"  
+                    data-collection-action="remove" 
+                    data-collection-target="#{{ name }}"
+                    data-collection-serial0="__name__">&times;</button>
+                </div>
+            </div>
+            {% endblock %}
+
+        {% endembed %}
+        
+        {{ form_errors(form.medias) }}
+        {{ form_help(form.medias) }}
+    </div>
+
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
